@@ -1,0 +1,45 @@
+{
+  "name": "agenda-db-dynamodb",
+  "version": "0.1.0",
+  "description": "DynamoDB adapter for Agenda",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/C45tr0/agenda-db-dynamodb.git"
+  },
+  "keywords": [
+    "agenda",
+    "dynamodb",
+    "dynamo",
+    "aws",
+    "amazon",
+    "document",
+    "database",
+    "data",
+    "datastore",
+    "query",
+    "scan",
+    "nosql",
+    "db"
+  ],
+  "author": "C45tr0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/C45tr0/agenda-db-dynamodb/issues"
+  },
+  "homepage": "https://github.com/C45tr0/agenda-db-dynamodb#readme",
+  "dependencies": {
+    "agenda": "github:c45tr0/agenda#db-adapters",
+    "vogels": "github:c45tr0/vogels#expressions-document-paths"
+  },
+  "devDependencies": {
+    "blanket": "^1.2.3",
+    "coveralls": "^2.11.12",
+    "expect.js": "^0.3.1",
+    "mocha": "^3.0.2",
+    "mocha-lcov-reporter": "^1.2.0"
+  }
+}
