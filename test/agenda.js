@@ -289,7 +289,7 @@ describe("agenda", function() {
             jobs.create('unique job', {type: 'active', userId: '123', 'other': true}).unique({'data.type': 'active', 'data.userId': '123'}).schedule("now").save(function(err, job1) {
               setTimeout(function() { // Avoid timing condition where nextRunAt coincidentally is the same
                 jobs.create('unique job', {type: 'active', userId: '123', 'other': false}).unique({'data.type': 'active', 'data.userId': '123'}).schedule("now").save(function(err, job2) {
-                  expect(job1.attrs.nextRunAt.toISOString()).not.to.equal(job2.attrs.nextRunAt.toISOString())
+                  expect((new Date(job1.attrs.nextRunAt)).toISOString()).not.to.equal((new Date(job2.attrs.nextRunAt)).toISOString())
                   jobs.jobs({name: 'unique job'}, function(err, j) {
                     expect(j).to.have.length(1);
                     done();
@@ -302,7 +302,7 @@ describe("agenda", function() {
           it('should not modify job when unique matches and insertOnly is set to true', function(done) {
             jobs.create('unique job', {type: 'active', userId: '123', 'other': true}).unique({'data.type': 'active', 'data.userId': '123'}, { insertOnly: true }).schedule("now").save(function(err, job1) {
               jobs.create('unique job', {type: 'active', userId: '123', 'other': false}).unique({'data.type': 'active', 'data.userId': '123'}, {insertOnly: true}).schedule("now").save(function(err, job2) {
-                expect(job1.attrs.nextRunAt.toISOString()).to.equal(job2.attrs.nextRunAt.toISOString())
+                expect((new Date(job1.attrs.nextRunAt)).toISOString()).to.equal((new Date(job2.attrs.nextRunAt)).toISOString())
                 jobs.jobs({name: 'unique job'}, function(err, j) {
                   expect(j).to.have.length(1);
                   done();
@@ -346,7 +346,11 @@ describe("agenda", function() {
             expect(job.isRunning()).to.be(true);
             jobs.stop(done);
           });
-          jobs.now('immediateJob');
+          jobs.now('immediateJob', function() {
+            jobs.jobs(jobs._dbAdapter._collection.scan(), function(err, c) {
+              console.log(err, c);
+            });
+          });
           jobs.start();
         });
       });
@@ -428,12 +432,27 @@ describe("agenda", function() {
       });
 
       it('should cancel multiple jobs', function(done) {
-        jobs.jobs({name: {$in: ['jobA', 'jobB']}}, function(err, j) {
+        var filter = "";
+        var values = {};
+
+        ['jobA', 'jobB'].forEach(function(value, i) {
+          if (i > 0) {
+            filter += ' AND ';
+          }
+
+          filter += `(#name = :name${i})`;
+          values[`:name${i}`] = value;
+        });
+
+        var scan = jobs._dbAdapter._collection.scan().filterExpression(filter).expressionAttributeValues(values)
+          .expressionAttributeNames({'#name': 'name'});
+
+        jobs.jobs(scan, function(err, j) {
           if(err) return done(err);
           expect(j).to.have.length(3);
-          jobs.cancel({name: {$in: ['jobA', 'jobB']}}, function(err) {
+          jobs.cancel(scan, function(err) {
             if(err) return done(err);
-            jobs.jobs({name: {$in: ['jobA', 'jobB']}}, function(err, j) {
+            jobs.jobs(scan, function(err, j) {
               if(err) return done(err);
               expect(j).to.have.length(0);
               done();
@@ -653,7 +672,7 @@ describe("agenda", function() {
           if(err) return done(err);
           job.remove(function(err) {
             if(err) return done(err);
-            mongo.collection('agendaJobs').find({_id: job.attrs._id}).toArray(function(err, j) {
+            jobs.jobs({_id: job.attrs._id}, function(err, j) {
               expect(j).to.have.length(0);
               done();
             });
