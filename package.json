@@ -33,7 +33,7 @@
   "homepage": "https://github.com/C45tr0/agenda-db-dynamodb#readme",
   "dependencies": {
     "agenda": "github:c45tr0/agenda#db-adapters",
-    "dynogels": "github:c45tr0/dynogels#expressions-document-paths"
+    "dynogels": "^7.1.0"
   },
   "devDependencies": {
     "blanket": "^1.2.3",
