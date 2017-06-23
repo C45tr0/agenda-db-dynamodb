@@ -1,0 +1,42 @@
+sudo: required
+dist: trusty
+
+language: node_js
+
+node_js:
+  - "4"
+  - "5"
+  - "6"
+
+install:
+  - npm install
+
+env:
+  global:
+    # mysql info
+    - SEQ_MYSQL_DB: sequelize_test
+    - SEQ_MYSQL_USER: sequelize_test
+    - SEQ_MYSQL_PW: sequelize_test
+    - SEQ_MYSQL_HOST: 127.0.0.1
+    - SEQ_MYSQL_PORT: 8999
+    # postgres info
+    - SEQ_PG_DB: sequelize_test
+    - SEQ_PG_USER: sequelize_test
+    - SEQ_PG_PW: sequelize_test
+    - SEQ_PG_HOST: 127.0.0.1
+    - SEQ_PG_PORT: 8998
+
+  matrix:
+    - DIALECT=sqlite
+    - MYSQL_VER=mysql-57 DIALECT=mysql
+    - POSTGRES_VER=postgres-95 DIALECT=postgres
+    - POSTGRES_VER=postgres-95 DIALECT=postgres-native
+
+before_script:
+  - "if [ $POSTGRES_VER ] || [ $MYSQL_VER ]; then docker-compose up -d ${POSTGRES_VER} ${MYSQL_VER}; fi"
+  - "if [ $MYSQL_VER ]; then docker run --link ${MYSQL_VER}:db -e CHECK_PORT=3306 -e CHECK_HOST=db --net sequelize_default giorgos/takis; fi"
+  - "if [ $POSTGRES_VER ]; then docker run --link ${POSTGRES_VER}:db -e CHECK_PORT=5432 -e CHECK_HOST=db --net sequelize_default giorgos/takis; fi"
+
+script: npm run test
+after_script: make test-coveralls
+

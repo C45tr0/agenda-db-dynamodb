@@ -1,0 +1,57 @@
+{
+  "name": "agenda-db-sequelize",
+  "version": "0.1.0",
+  "description": "Sequelize adapter for Agenda",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -w --reporter spec",
+    "test-mysql": "cross-env DIALECT=mysql npm run test",
+    "test-postgres": "cross-env DIALECT=postgres npm run test",
+    "test-sqlite": "cross-env DIALECT=sqlite npm run test",
+    "test-docker": "env-cmd ./test/config/.docker.env npm run test",
+    "test-docker-mysql": "cross-env DIALECT=mysql npm run test-docker",
+    "test-docker-postgres": "cross-env DIALECT=postgres npm run test-docker",
+    "blanket": {
+      "pattern": "lib",
+      "data-cover-never": "node_modules"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/C45tr0/agenda-db-sequelize.git"
+  },
+  "keywords": [
+    "agenda",
+    "mysql",
+    "postgresql",
+    "sqlite",
+    "sequelize",
+    "database",
+    "data",
+    "datastore",
+    "query",
+    "db"
+  ],
+  "author": "C45tr0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/C45tr0/agenda-db-sequelize/issues"
+  },
+  "homepage": "https://github.com/C45tr0/agenda-db-sequelize#readme",
+  "dependencies": {
+    "agenda": "github:c45tr0/agenda#db-adapters",
+    "env-cmd": "^5.0.0",
+    "sequelize": "github:c45tr0/sequelize#mysql_json_datatype"
+  },
+  "devDependencies": {
+    "blanket": "1.1.5",
+    "coveralls": "~2.11.4",
+    "cross-env": "^5.0.1",
+    "expect.js": "~0.3.1",
+    "mocha": "~2.4.5",
+    "mocha-lcov-reporter": "0.0.2",
+    "mysql2": "^1.3.5",
+    "q": "^1.5.0",
+    "sqlite3": "^3.1.8"
+  }
+}
