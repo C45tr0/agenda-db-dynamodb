@@ -16,7 +16,7 @@ abbrev@1:
 
 "agenda@github:c45tr0/agenda#db-adapters":
   version "0.9.1"
-  resolved "https://codeload.github.com/c45tr0/agenda/tar.gz/228464c505dcd1fc3de18fcdebeffaaf7dbe6b2c"
+  resolved "https://codeload.github.com/c45tr0/agenda/tar.gz/78e023913d2530e6e2520a2fbe262e1b4f2516ce"
   dependencies:
     cron "~1.1.0"
     date.js "~0.3.1"
@@ -1066,7 +1066,7 @@ seq-queue@0.0.5:
 
 "sequelize@github:c45tr0/sequelize#mysql_json_datatype":
   version "0.0.0-development"
-  resolved "https://codeload.github.com/c45tr0/sequelize/tar.gz/c409f5b441770d9f8b7c6e6067726e46f514991f"
+  resolved "https://codeload.github.com/c45tr0/sequelize/tar.gz/eb0af33ff369c708a9bb0af040f561dcd7b1de44"
   dependencies:
     bluebird "^3.4.6"
     cls-bluebird "^2.0.1"

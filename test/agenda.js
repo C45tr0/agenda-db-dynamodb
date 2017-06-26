@@ -1212,7 +1212,6 @@ describe("agenda", function() {
         var counter = 0;
 
         jobs.define('everyRunTest1', function(job, cb) {
-          console.log('called');
           if(counter < 2) {
             counter++;
           }
@@ -1222,7 +1221,6 @@ describe("agenda", function() {
         jobs.every(10, 'everyRunTest1');
 
         jobs.start();
-
         setTimeout(function() {
           jobs.jobs({name: 'everyRunTest1'}, function(err, res) {
             expect(counter).to.be(2);
