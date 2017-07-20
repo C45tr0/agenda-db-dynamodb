@@ -1,6 +1,6 @@
 {
   "name": "agenda-db-sequelize",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sequelize adapter for Agenda",
   "main": "index.js",
   "scripts": {
@@ -41,7 +41,7 @@
   "dependencies": {
     "agenda": "github:c45tr0/agenda#db-adapters",
     "env-cmd": "^5.0.0",
-    "sequelize": "github:c45tr0/sequelize#mysql_json_datatype"
+    "sequelize": "github:c45tr0/sequelize#mysql_json_and_evict"
   },
   "devDependencies": {
     "blanket": "1.1.5",
