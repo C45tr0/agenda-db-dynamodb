@@ -41,10 +41,9 @@
   "dependencies": {
     "agenda": "github:c45tr0/agenda#db-adapters",
     "env-cmd": "^5.0.0",
-    "sequelize": "github:c45tr0/sequelize#mysql_json_and_evict"
+    "sequelize": "^4.32.1"
   },
   "devDependencies": {
-    "blanket": "1.1.5",
     "coveralls": "~2.11.4",
     "cross-env": "^5.0.1",
     "expect.js": "~0.3.1",
